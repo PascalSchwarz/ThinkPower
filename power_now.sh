@@ -1,9 +1,16 @@
 #!/bin/sh
 power_bat0=$( cat /sys/class/power_supply/BAT0/power_now )
-power_bat1=$( cat /sys/class/power_supply/BAT1/power_now )
-
 status_bat0=$( cat /sys/class/power_supply/BAT0/status )
+
+
+if [ -d "/sys/class/power_supply/BAT1" ]
+then
+power_bat1=$( cat /sys/class/power_supply/BAT1/power_now )
 status_bat1=$( cat /sys/class/power_supply/BAT1/status )
+else
+power_bat1=0
+status_bat1="Unknown"
+fi
 
 old_energy=$( cat /sys/class/powercap/intel-rapl:0/energy_uj )
 
