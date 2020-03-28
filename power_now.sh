@@ -5,6 +5,8 @@ power_bat1=$( cat /sys/class/power_supply/BAT1/power_now )
 status_bat0=$( cat /sys/class/power_supply/BAT0/status )
 status_bat1=$( cat /sys/class/power_supply/BAT1/status )
 
+old_energy=$( cat /sys/class/powercap/intel-rapl:0/energy_uj )
+
 power_total=$(((power_bat0+power_bat1)/1000000))
 
 if [ $status_bat0 = 'Charging' ] || [ $status_bat1 = 'Charging' ]
@@ -14,11 +16,14 @@ else
 sign="-"
 fi
 
+power_total="${sign}${power_total}W"
+
 if [ $status_bat0 = 'Unknown' ] && [ $status_bat1 = 'Unknown' ]
 then
-sign=""
+sleep 1
+current_energy=$( cat /sys/class/powercap/intel-rapl:0/energy_uj )
+power_total="$(((current_energy-old_energy)/1000000))W"
 fi
 
-power_total="${sign}${power_total}W"
 
 echo $power_total
