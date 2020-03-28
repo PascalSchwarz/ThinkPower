@@ -14,6 +14,11 @@ else
 sign="-"
 fi
 
+if [ $status_bat0 = 'Unknown' ] && [ $status_bat1 = 'Unknown' ]
+then
+sign=""
+fi
+
 power_total="${sign}${power_total}W"
 
 echo $power_total
