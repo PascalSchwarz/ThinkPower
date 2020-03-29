@@ -1,7 +1,13 @@
 #!/bin/sh
+
+if [ -d "/sys/class/power_supply/BAT0" ]
+then
 power_bat0=$( cat /sys/class/power_supply/BAT0/power_now )
 status_bat0=$( cat /sys/class/power_supply/BAT0/status )
-
+else
+power_bat0=0
+status_bat0="Unknown"
+fi
 
 if [ -d "/sys/class/power_supply/BAT1" ]
 then
