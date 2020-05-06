@@ -31,7 +31,7 @@ fi
 
 power_total="${sign}${power_total}W"
 
-if [ $status_bat0 = 'Unknown' ] && [ $status_bat1 = 'Unknown' ]
+if [ $status_bat0 = 'Unknown' ] || [ $status_bat0 = 'Full' ] && [ $status_bat1 = 'Unknown' ] || [ $status_bat1 = 'Full' ]
 then
 sleep 0.5
 current_energy=$( cat /sys/class/powercap/intel-rapl:0/energy_uj )
@@ -40,3 +40,4 @@ fi
 
 
 echo $power_total
+
